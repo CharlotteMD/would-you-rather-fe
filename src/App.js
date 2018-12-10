@@ -4,14 +4,28 @@ import Axios from 'axios';
 import './App.css';
 
 class App extends Component {
-  state = {
-    questions: ''
-   };
+  constructor() {
+    super();
+    this.state = {
+      questions: [{
+        id: '',
+        rathera: '',
+        ratherb: '',
+        createdBy: ''
+      }]
+    };
+  }
+
 
   componentDidMount() {
+    // var self = this;
     Axios
       .get('/questions')
-      .then(res => this.setState({ questions: res.data }))
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ questions: response.data.data })
+        // console.log('state: '+ this.state.questions);
+      })
       .catch(err => console.log(err));
   }
 
@@ -23,10 +37,12 @@ class App extends Component {
           <h1>Questions</h1>
         </header>
 
-        <div className="questions">
 
-          <p>{this.state.questions[0]}</p>
-        </div>
+
+        { this.state.questions.map((question, i) => {
+          return <p>{question.rathera}</p>
+        })}
+
 
       </div>
     );
